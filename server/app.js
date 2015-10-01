@@ -1,4 +1,7 @@
+require('./models/projects.js');
 // *** main dependencies *** //
+var dotenv = require('dotenv');
+dotenv.load();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,20 +9,39 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
+var http = require('http');
+var mongoose = require('mongoose');
 
 
 // *** routes *** //
 var routes = require('./routes/index.js');
+var project = require('./routes/api.js');
 
 
 // *** express instance *** //
 var app = express();
 
 
+// *** config file *** //
+var config = require('./_config');
+
+
 // *** view engine *** //
 var swig = new swig.Swig();
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
+
+
+// *** mongoose *** //
+// mongoose.createConnection(config.mongoURI[app.settings.env], function(err, res) {
+//   if(err) {
+//     console.log('Error connecting to the database. ' + err);
+//   } else {
+//     console.log('Connected to Database: ' + config.mongoURI[app.settings.env]);
+//   }
+// });
+
+// mongoose.createConnection('mongodb://localhost/node-development');
 
 
 // *** static directory *** //
@@ -36,6 +58,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 // *** main routes *** //
 app.use('/', routes);
+app.use('/api/v1/', project);
 
 
 // catch 404 and forward to error handler
