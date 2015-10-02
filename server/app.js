@@ -8,13 +8,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var swig = require('swig');
 var http = require('http');
 var mongoose = require('mongoose');
 
 
 // *** routes *** //
-var routes = require('./routes/index.js');
 var project = require('./routes/api.js');
 
 
@@ -22,14 +20,12 @@ var project = require('./routes/api.js');
 var app = express();
 
 
+// *** static directory *** //
+app.set('views', path.join(__dirname, 'views'));
+
+
 // *** config file *** //
 var config = require('./_config');
-
-
-// *** view engine *** //
-var swig = new swig.Swig();
-app.engine('html', swig.renderFile);
-app.set('view engine', 'html');
 
 
 // *** mongoose *** //
@@ -42,22 +38,20 @@ mongoose.createConnection(config.mongoURI[app.settings.env], function(err, res) 
 });
 
 
-// *** static directory *** //
-app.set('views', path.join(__dirname, 'views'));
-
-
 // *** config middleware *** //
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 
 // *** main routes *** //
-app.use('/', routes);
 app.use('/api/v1/', project);
-
+app.use('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../client/views', 'index.html'));
+});
+  
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
