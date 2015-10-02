@@ -1,7 +1,7 @@
 var config = {};
 
 config.mongoURI = {
-  development: 'mongodb://localhost/node-development',
+  development: 'mongodb://localhost/node-project',
   test: 'mongodb://localhost/node-test',
   stage: process.env.MONGOLAB_URI
 };

@@ -33,7 +33,6 @@ router.get('/project/:id', function(req, res, next) {
 
 // POST ALL projects
 router.post('/projects', function(req, res, next) {
-	console.log('test');
 	var newProject = new Project({
 		name: req.body.name,
 		description: req.body.description,
@@ -41,21 +40,44 @@ router.post('/projects', function(req, res, next) {
 		group: req.body.group,
 		group_members: req.body.group_members
 	});
-	console.log(newProject);
 	newProject.save(function(err, project) {
-		console.log('after save');
 		if(err) {
-			console.log('after err');
 			res.json({'ERROR': err});
 		} else {
-			res.json(project);
+			res.json({'SUCCESS': project});
 		}
 	});
 });
 
 
 // PUT single project
+router.put('/project/:id', function(req, res, next) {
+	Project.findById(req.params.id, function(err, project) {
+		project.name = req.body.name;
+		project.description = req.body.description;
+		project.tags = req.body.tags;
+		project.group = req.body.group;
+		project.group_members = req.body.group_members;
+		project.save(function(err) {
+			if(err) {
+			res.json({'ERROR': err});
+			} else {
+			res.json({'UPDATED': project});
+			}
+		});
+	});
+});
+
 
 // DELETE single project
+router.delete('/project/:id', function(req, res, next) {
+	Project.findByIdAndRemove(req.params.id, function(err, project) {
+		if(err) {
+			res.json({'ERROR': err});
+		} else {
+			res.json({'REMOVED': project});
+		}
+	});
+});
 
 module.exports = router;

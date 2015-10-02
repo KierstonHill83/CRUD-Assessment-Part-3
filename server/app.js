@@ -33,15 +33,13 @@ app.set('view engine', 'html');
 
 
 // *** mongoose *** //
-// mongoose.createConnection(config.mongoURI[app.settings.env], function(err, res) {
-//   if(err) {
-//     console.log('Error connecting to the database. ' + err);
-//   } else {
-//     console.log('Connected to Database: ' + config.mongoURI[app.settings.env]);
-//   }
-// });
-
-// mongoose.createConnection('mongodb://localhost/node-development');
+mongoose.createConnection(config.mongoURI[app.settings.env], function(err, res) {
+  if(err) {
+    console.log('Error connecting to the database. ' + err);
+  } else {
+    console.log('Connected to Database: ' + config.mongoURI[app.settings.env]);
+  }
+});
 
 
 // *** static directory *** //

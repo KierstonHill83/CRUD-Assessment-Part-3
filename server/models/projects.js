@@ -9,6 +9,6 @@ var Project = new Schema({
 	group_members: [String]
 });
 
-mongoose.connect('mongodb://localhost/node-project');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/node-project');
 
 module.exports = mongoose.model('projects', Project);
