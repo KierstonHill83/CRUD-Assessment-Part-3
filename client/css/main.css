@@ -17,3 +17,7 @@ h1 {
 .navbar-brand {
 	font-size: 30px;
 }
+
+#form {
+	margin: 70px;
+}
