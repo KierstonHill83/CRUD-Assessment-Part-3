@@ -35,7 +35,8 @@ router.post('/projects', function(req, res, next) {
 		description: req.body.description,
 		tags: req.body.tags,
 		group: req.body.group,
-		group_members: req.body.group_members
+		group_members: req.body.group_members,
+		github: req.body.github
 	});
 	newProject.save(function(err, project) {
 		if(err) {
@@ -55,6 +56,7 @@ router.put('/project/:id', function(req, res, next) {
 		project.tags = req.body.tags;
 		project.group = req.body.group;
 		project.group_members = req.body.group_members;
+		project.github = req.body.github;
 		project.save(function(err) {
 			if(err) {
 			res.json({'ERROR': err});

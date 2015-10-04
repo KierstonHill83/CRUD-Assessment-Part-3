@@ -6,7 +6,8 @@ var Project = new Schema({
 	description: String,
 	tags: [String],
 	group: Boolean,
-	group_members: [String]
+	group_members: [String],
+	github: String
 });
 
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/node-project');

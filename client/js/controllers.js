@@ -62,7 +62,7 @@ app.controller('ProjectController', function($scope, httpFactory, $timeout) {
 			console.log(response);
 			getProjects('/api/v1/projects');
 			$scope.success = true;
-			$scope.message = 'Delete the Project!';
+			$scope.message = 'Deleted the Project!';
 			$timeout(messageTimeout, 3000);
 		});
 	};

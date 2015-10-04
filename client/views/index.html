@@ -28,7 +28,7 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li ng-click="form = true"><a href="#">Add a Project <span class="sr-only">(current)</span></a></li>
-              <li class="dropdown">
+              <!-- <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort Projects <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#">Action</a></li>
@@ -39,12 +39,12 @@
                   <li role="separator" class="divider"></li>
                   <li><a href="#">One more separated link</a></li>
                 </ul>
-              </li>
+              </li> -->
             </ul>
 
             <form class="navbar-form navbar-left" role="search">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="Search" ng-model="search">
               </div>
               <!-- <button type="submit" class="btn btn-info">Submit</button> -->
             </form>
@@ -53,8 +53,11 @@
         </div>
       </nav>
           
+      
+
       <form id="form" ng-model="form" ng-show="form">
-        <h1>Add a Project</h1>
+        <h1 ng-hide="edit">Add a Project</h1>
+        <h1 ng-show="edit">Edit a Project</h1>
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" ng-model="project.name" placeholder="Name">
@@ -76,7 +79,12 @@
           <label for="group_members">Group Members</label>
           <input type="text" class="form-control" ng-model="project.group_members" placeholder="Group Members">
         </div>
-        <button type="submit" class="btn btn-info" ng-click="postProject(); form = false">Submit</button>
+        <div class="form-group">
+          <label for="github">Github URL</label>
+          <input type="text" class="form-control" ng-model="project.github" placeholder="Github URL">
+        </div>
+        <button type="submit" class="btn btn-info" ng-click="postProject(); form = false" ng-hide="edit">Submit</button>
+        <button type="submit" class="btn btn-info" ng-click="updateProject(); form = false" ng-show="edit">Update</button>
       </form>
 
       <br>
@@ -84,8 +92,71 @@
         <p class="alert alert-info" role="alert" id="message">{{ message }}</p>
       </div>
     
+      <div class="container" id="project" ng-repeat="project in projects | filter:search">
+        <div class="row">
+          <div class="col-sm-2">
+            <div type="button" class="btn btn-default" id="github">
+              <h4><a ng-href="{{ project.github }}">Click Me<br>for<br>Github<br>Link</a></h4>
+            </div>
+          </div>
+          <div class="col-sm-7">
+            <h2>{{ project.name | uppercase }}</h2>
+            <p>{{ project.description }}</p>
+            <p>Technologies Used: {{ project.tags }}</p>
+          </div>
+          <div class="col-sm-3">
+            <br><br>
+            <p ng-if="project.group">Group Project: {{ project.group }}</p>
+            <p ng-if="project.group">Group Members: {{ project.group_members }}</p>
+            <div id="two-buttons">
+              <button ng-click="editProject(project._id); form = true" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></button> <button ng-click="removeProject(project._id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    
+     <!--  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="editModal" ng-model="modal" ng-show="modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="edit-project">Edit the Project</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" ng-model="project.name" placeholder="Name">
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input type="text" class="form-control" ng-model="project.description" placeholder="Description">
+                </div>
+                <div class="form-group">
+                  <label for="tags">Tags</label>
+                  <input type="text" class="form-control" ng-model="project.tags" placeholder="Tags">
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-model="project.group"> Group Project?
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label for="group_members">Group Members</label>
+                  <input type="text" class="form-control" ng-model="project.group_members" placeholder="Group Members">
+                </div>
+                <div class="form-group">
+                  <label for="github">Github URL</label>
+                  <input type="text" class="form-control" ng-model="project.github" placeholder="Github URL">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-info" ng-click="updateProject()">Update</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
 
     </div> <!-- close container -->
 
