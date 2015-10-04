@@ -1,6 +1,6 @@
-app.controller('ProjectController', function($scope, httpFactory) {
+app.controller('ProjectController', function($scope) {
 
-
+$scope.greeting= 'hello world';
 
 
 
