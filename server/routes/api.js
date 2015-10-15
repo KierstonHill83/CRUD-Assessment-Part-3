@@ -10,7 +10,7 @@ router.get('/projects', function(req, res, next) {
 		if(err) {
 			res.json({'ERROR': err});
 		} else {
-			// res.json(project);
+			res.json(project);
 		}
 	});
 });
